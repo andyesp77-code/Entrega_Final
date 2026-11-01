@@ -1,0 +1,56 @@
+[
+    {
+        "id": 1,
+        "nombre": "JUAN",
+        "clave": 1234,
+        "saldoInicio": 100000,
+        "saldoActual": 100000,
+        "tipoCta": "Sueldo",
+        "movimientos": []
+    },
+    {
+        "id": 2,
+        "nombre": "PEDRO",
+        "clave": 2345,
+        "saldoInicio": 150000,
+        "saldoActual": 150000,
+        "tipoCta": "Sueldo",
+        "movimientos": []
+    },
+    {
+        "id": 3,
+        "nombre": "MARIA",
+        "clave": 3456,
+        "saldoInicio": 180000,
+        "saldoActual": 180000,
+        "tipoCta": "Caja Ahorro",
+        "movimientos": []
+    },
+    {
+        "id": 4,
+        "nombre": "ANA",
+        "clave": 4567,
+        "saldoInicio": 200000,
+        "saldoActual": 200000,
+        "tipoCta": "Caja Ahorro",
+        "movimientos": []
+    },
+    {
+        "id": 5,
+        "nombre": "ANDREA",
+        "clave": 5678,
+        "saldoInicio": 300000,
+        "saldoActual": 300000,
+        "tipoCta": "Sueldo",
+        "movimientos": []
+    },
+    {
+        "id": 6,
+        "nombre": "ADMIN",
+        "clave": 2990,
+        "saldoInicio": 1,
+        "saldoActual": 1,
+        "tipoCta": "Administrador",
+        "movimientos": []
+    }
+]

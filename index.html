@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WestBank - Simulador de Cajero</title>
+     <script src="js/datos.js" defer></script>
+     <script src="js/interfaz.js" defer></script>
+     <script src="js/main.js" defer></script>
+     <!-- Toastify -->
+     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+     <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+    <main id="aplicacion">
+
+        <!-- PANEL DE INICIO -->
+        <section id="panel-inicio" class="panel">
+            <img class="logo" src="assets/logo.png" alt="Logo de WestBank">
+            <h1>Simulador de Cajero Automático</h1>
+            <p id="bienvenida-inicio">Ingrese su usuario y clave para operar</p>
+
+            <div id="formulario-ingreso" class="ingreso">
+                <label for="input-usuario">Usuario</label>
+                <input id="input-usuario" type="text" maxlength="20" autocomplete="off">
+
+                <label for="input-clave">Clave</label>
+                <input id="input-clave" type="password" maxlength="4" autocomplete="off" inputmode="numeric">
+            </div>
+
+            <div id="resultado-inicio" class="resultado">
+                <h2>Resultado</h2>
+                <p id="mensaje-inicio">Cargando usuarios registrados, aguarde un momento...</p>
+                <p id="intentos-inicio">Intento 0 de 3</p>
+            </div>
+
+            <div class="acciones-finales">
+                <button id="btn-ingresar" type="button">Ingresar</button>
+            </div>
+        </section>
+
+        <!-- PANEL DEL CLIENTE -->
+        <section id="panel-cliente" class="panel oculto">
+            <img class="logo" src="assets/logo.png" alt="Logo de WestBank">
+            <h1>Simulador de Cajero Automático</h1>
+            <p id="bienvenida-cliente">Bienvenido/a</p>
+
+            <div id="menu-cliente" class="menu">
+                <button id="btn-consultar-saldo" type="button">Consultar saldo</button>
+                <button id="btn-consultar-movimientos" type="button">Consultar movimientos</button>
+                <button id="btn-depositar" type="button">Depositar</button>
+                <button id="btn-extraer" type="button">Extraer</button>
+                <button id="btn-cambiar-clave" type="button">Cambiar clave</button>
+            </div>
+
+            <form id="formulario-deposito" class="ingreso oculto">
+                <h2>Depositar dinero</h2>
+                <label for="input-importe-deposito">Importe a depositar</label>
+                <input id="input-importe-deposito" type="text" autocomplete="off" pattern="\d+(\.\d{1,2})?" title="Ingrese el importe con hasta 2 decimales separados por punto (ej: 1500.50)" inputmode="decimal">
+
+                <div class="menu">
+                    <button id="btn-confirmar-deposito" type="submit">Depositar</button>
+                    <button id="btn-cancelar-deposito" type="button">Cancelar</button>
+                </div>
+            </form>
+
+            <form id="formulario-extraccion" class="ingreso oculto">
+                <h2>Extraer dinero</h2>
+                <label for="input-importe-extraccion">Importe a extraer</label>
+                <input id="input-importe-extraccion" type="text" autocomplete="off" pattern="\d+(\.\d{1,2})?" title="Ingrese el importe con hasta 2 decimales separados por punto (ej: 1500.50)" inputmode="decimal">
+
+                <div class="menu">
+                    <button id="btn-confirmar-extraccion" type="submit">Extraer</button>
+                    <button id="btn-cancelar-extraccion" type="button">Cancelar</button>
+                </div>
+            </form>
+
+            <form id="formulario-cambio-clave-usuario" class="ingreso oculto">
+                <h2>Cambiar clave</h2>
+                <label for="input-nueva-clave-usuario">Nueva clave numérica de 4 dígitos</label>
+                <input id="input-nueva-clave-usuario" type="password" maxlength="4" autocomplete="new-password" inputmode="numeric">
+
+                <div class="menu">
+                    <button id="btn-guardar-clave-usuario" type="submit">Guardar clave</button>
+                    <button id="btn-cancelar-cambio-clave-usuario" type="button">Cancelar</button>
+                </div>
+            </form>
+
+            <div id="resultado-operacion" class="resultado">
+                <h2>Resultado</h2>
+                <p id="mensaje-operacion">Seleccione una operación</p>
+                <p id="saldo-actual"></p>
+            </div>
+
+            <!-- Aviso que se muestra unos segundos después de ingresar -->
+            <div id="aviso-cliente" class="aviso oculto">
+                <h2>Aviso</h2>
+                <p id="mensaje-aviso-cliente"></p>
+            </div>
+
+            <div id="contenedor-movimientos" class="resultado oculto">
+                <h2>Movimientos de la cuenta</h2>
+                <div class="ingreso">
+                    <label for="select-filtro-movimientos">Mostrar movimientos</label>
+                    <select id="select-filtro-movimientos" autocomplete="off">
+                        <option value="">Todos</option>
+                        <option value="Depósito">Ingresos</option>
+                        <option value="Extracción">Egresos</option>
+                    </select>
+                </div>
+                <p id="saldo-inicial-movimientos"></p>
+                <p id="saldo-referencia-movimientos"></p>
+                <div id="lista-movimientos"></div>
+                <p id="saldo-actual-movimientos"></p>
+            </div>
+
+            <div class="acciones-finales">
+                <button id="btn-salir-cliente" class="boton-salir" type="button">Salir</button>
+            </div>
+        </section>
+
+        <!-- PANEL DEL ADMINISTRADOR -->
+        <section id="panel-administrador" class="panel oculto">
+            <img class="logo" src="assets/logo.png" alt="Logo de WestBank">
+            <h1>Menú Administrador</h1>
+            <p id="bienvenida-administrador">Administración de usuarios</p>
+
+            <div id="menu-administrador" class="menu">
+                <button id="btn-listar-usuarios" type="button">Listar usuarios</button>
+                <button id="btn-buscar-usuario" type="button">Buscar usuario</button>
+                <button id="btn-nuevo-usuario" type="button">Nuevo usuario</button>
+                <button id="btn-eliminar-usuario" type="button">Eliminar usuario</button>
+                <button id="btn-blanquear-clave" type="button">Blanquear clave</button>
+                <button id="btn-cambiar-clave-admin" type="button">Cambiar clave</button>
+            </div>
+
+            <form id="formulario-busqueda-usuario" class="ingreso oculto">
+                <h2>Buscar usuarios</h2>
+                <label for="input-usuario-busqueda">Nombre completo o parcial</label>
+                <input id="input-usuario-busqueda" type="text" autocomplete="off">
+
+                <div class="menu">
+                    <button id="btn-confirmar-busqueda" type="submit">Buscar</button>
+                    <button id="btn-cancelar-busqueda" type="button">Cancelar</button>
+                </div>
+            </form>
+
+            <form id="formulario-registro-usuario" class="ingreso oculto">
+                <h2>Registrar nuevo usuario</h2>
+                <label for="input-usuario-registro">Usuario</label>
+                <input id="input-usuario-registro" type="text" maxlength="20" autocomplete="off">
+
+                <label for="input-clave-registro">Clave de 4 dígitos</label>
+                <input id="input-clave-registro" type="password" maxlength="4" autocomplete="new-password" inputmode="numeric">
+
+                <label for="select-tipo-cuenta-registro">Tipo de cuenta</label>
+                <select id="select-tipo-cuenta-registro">
+                    <option value="">Seleccione un tipo de cuenta</option>
+                    <option value="Sueldo">Sueldo</option>
+                    <option value="Caja Ahorro">Caja de Ahorro</option>
+                </select>
+
+                <label for="input-saldo-inicio-registro">Saldo inicial</label>
+                <input id="input-saldo-inicio-registro" type="text" autocomplete="off" pattern="\d+(\.\d{1,2})?" title="Ingrese el importe con hasta 2 decimales separados por punto (ej: 1500.50)" inputmode="decimal">
+
+                <div class="menu">
+                    <button id="btn-guardar-usuario" type="submit">Registrar usuario</button>
+                    <button id="btn-cancelar-registro" type="button">Cancelar</button>
+                </div>
+            </form>
+
+            <form id="formulario-blanqueo-clave" class="ingreso oculto">
+                <h2>Blanquear clave de un usuario</h2>
+                <label for="input-usuario-blanqueo-clave">ID del usuario</label>
+                <input id="input-usuario-blanqueo-clave" type="number" min="1" step="1" autocomplete="off" aria-describedby="mensaje-usuario-blanqueo-clave">
+                <p id="mensaje-usuario-blanqueo-clave" aria-live="polite"></p>
+
+                <div class="menu">
+                    <button id="btn-confirmar-blanqueo" type="submit">Blanquear clave</button>
+                    <button id="btn-cancelar-blanqueo-clave" type="button">Cancelar</button>
+                </div>
+            </form>
+
+            <form id="formulario-cambio-clave" class="ingreso oculto">
+                <h2>Cambiar clave de un usuario</h2>
+                <label for="input-usuario-cambio-clave">ID del usuario</label>
+                <input id="input-usuario-cambio-clave" type="number" min="1" step="1" autocomplete="off" aria-describedby="mensaje-usuario-cambio-clave">
+                <p id="mensaje-usuario-cambio-clave" aria-live="polite"></p>
+
+                <label for="input-nueva-clave">Nueva clave numérica de 4 dígitos</label>
+                <input id="input-nueva-clave" type="password" maxlength="4" autocomplete="new-password" inputmode="numeric">
+
+                <div class="menu">
+                    <button id="btn-guardar-clave" type="submit">Guardar clave</button>
+                    <button id="btn-cancelar-cambio-clave" type="button">Cancelar</button>
+                </div>
+            </form>
+
+            <form id="formulario-eliminacion-usuario" class="ingreso oculto">
+                <h2>Eliminar usuario</h2>
+                <label for="input-usuario-eliminacion">ID del usuario</label>
+                <input id="input-usuario-eliminacion" type="number" min="1" step="1" autocomplete="off" aria-describedby="mensaje-usuario-eliminacion">
+                <p id="mensaje-usuario-eliminacion" aria-live="polite"></p>
+
+                <div class="menu">
+                    <button id="btn-confirmar-eliminacion" type="submit">Eliminar usuario</button>
+                    <button id="btn-cancelar-eliminacion" type="button">Cancelar</button>
+                </div>
+            </form>
+
+            <div id="contenedor-usuarios" class="usuarios oculto">
+                <div class="encabezado-listado">
+                    <h2>Usuarios</h2>
+                    <span id="cantidad-usuarios">0 usuarios</span>
+                </div>
+
+                <div id="lista-usuarios"></div>
+            </div>
+
+            <div id="resultado-administrador" class="resultado">
+                <h2>Resultado</h2>
+                <p id="mensaje-administrador">Seleccione una opción</p>
+            </div>
+
+            <div class="acciones-finales">
+                <button id="btn-salir-admin" class="boton-salir" type="button">Salir</button>
+            </div>
+        </section>
+
+    </main>
+        <!-- SWEETALERT -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Toastify -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+</body>
+</html>
